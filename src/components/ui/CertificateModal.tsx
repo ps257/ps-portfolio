@@ -112,7 +112,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
       {/* Modal Container */}
       <div
-        className="relative w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl sm:rounded-3xl bg-white dark:bg-zinc-950 border border-black/10 dark:border-white/10 shadow-2xl overflow-hidden z-10"
+        className="relative w-full max-w-5xl h-[92vh] sm:h-auto sm:max-h-[90vh] flex flex-col rounded-2xl sm:rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden z-10"
         role="dialog"
         aria-modal="true"
       >
@@ -120,54 +120,54 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
         <div className="h-1 w-full bg-gradient-to-r from-cyan-500 via-teal-400 to-blue-500 shrink-0" />
 
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 border-b border-black/5 dark:border-white/10 shrink-0 bg-zinc-50/50 dark:bg-zinc-900/50">
-          <div className="flex items-center gap-2.5 min-w-0">
+        <div className="flex items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-3.5 border-b border-zinc-100 dark:border-zinc-800 shrink-0 bg-zinc-50/90 dark:bg-zinc-900/90 backdrop-blur-xs">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <div className="p-1.5 rounded-lg bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 shrink-0">
               <CertificateStarIcon className="w-4 h-4" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-sm sm:text-base font-bold text-zinc-950 dark:text-white truncate">
+              <h3 className="text-xs sm:text-base font-bold text-zinc-950 dark:text-white truncate">
                 {title || (isVi ? "Chứng chỉ & Bằng cấp" : "Certificates & Diplomas")}
               </h3>
               {certificates.length > 1 && (
-                <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                <p className="text-[11px] sm:text-xs font-mono text-zinc-500 dark:text-zinc-400">
                   {currentIndex + 1} / {certificates.length}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0">
             <a
               href={currentCert.image}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
               title={isVi ? "Mở ảnh gốc trong tab mới" : "Open original in new tab"}
             >
               <ExternalLink className="w-4 h-4" />
             </a>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               title={isVi ? "Đóng" : "Close"}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
-        {/* Modal Main Content: Left Image Viewer + Right Info Panel (or stacked on mobile) */}
-        <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 min-h-0">
+        {/* Modal Main Content: Left Image Viewer + Right Info Panel (stacked smoothly on mobile) */}
+        <div className="flex-1 overflow-y-auto flex flex-col lg:grid lg:grid-cols-12 min-h-0">
           {/* Image Display Area */}
-          <div className="lg:col-span-8 relative bg-zinc-950 flex items-center justify-center p-3 sm:p-6 min-h-[300px] sm:min-h-[440px]">
+          <div className="lg:col-span-8 relative bg-zinc-100/80 dark:bg-zinc-950 flex items-center justify-center p-3 sm:p-6 shrink-0 min-h-[220px] sm:min-h-[440px]">
             <img
               src={currentCert.image}
               alt={isVi ? currentCert.title : currentCert.titleEn}
               onClick={() => setIsZoomed(!isZoomed)}
               onContextMenu={(e) => e.preventDefault()}
               draggable={false}
-              className={`max-w-full max-h-[60vh] sm:max-h-[65vh] object-contain rounded-lg shadow-2xl transition-all duration-300 select-none ${
+              className={`max-w-full max-h-[38vh] sm:max-h-[60vh] object-contain rounded-xl shadow-lg transition-all duration-300 select-none ${
                 isZoomed ? "scale-125 cursor-zoom-out" : "hover:scale-[1.01] cursor-zoom-in"
               }`}
               loading="lazy"
@@ -181,33 +181,33 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                     e.stopPropagation();
                     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : certificates.length - 1));
                   }}
-                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/10 transition-all hover:scale-110 shadow-lg"
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-lg cursor-pointer"
                   aria-label="Previous"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setCurrentIndex((prev) => (prev < certificates.length - 1 ? prev + 1 : 0));
                   }}
-                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/10 transition-all hover:scale-110 shadow-lg"
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2.5 rounded-full bg-black/60 hover:bg-cyan-500 text-white backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-lg cursor-pointer"
                   aria-label="Next"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </>
             )}
           </div>
 
           {/* Certificate Metadata Details Area */}
-          <div className="lg:col-span-4 p-5 sm:p-6 flex flex-col justify-between bg-white dark:bg-zinc-900/90 border-t lg:border-t-0 lg:border-l border-black/5 dark:border-white/10">
-            <div className="space-y-4">
+          <div className="lg:col-span-4 p-4 sm:p-6 flex flex-col justify-between bg-white dark:bg-zinc-900 border-t lg:border-t-0 lg:border-l border-zinc-200/80 dark:border-zinc-800">
+            <div className="space-y-3 sm:space-y-4">
               <div>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 mb-2">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 mb-1.5">
                   Official Verified
                 </span>
-                <h4 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-white leading-snug">
+                <h4 className="text-sm sm:text-base font-bold text-zinc-950 dark:text-white leading-snug">
                   {isVi ? currentCert.title : currentCert.titleEn}
                 </h4>
                 {(currentCert.subtitle || currentCert.subtitleEn) && (
@@ -217,7 +217,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                 )}
               </div>
 
-              <div className="space-y-2.5 pt-3 border-t border-black/5 dark:border-white/5 text-xs">
+              <div className="space-y-2 pt-2.5 border-t border-zinc-100 dark:border-zinc-800 text-xs">
                 {currentCert.issuer && (
                   <div className="flex items-start gap-2.5 text-zinc-600 dark:text-zinc-300">
                     <Building2 className="w-4 h-4 text-cyan-500 shrink-0 mt-0.5" />
@@ -225,7 +225,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                       <span className="font-mono text-[10px] text-zinc-400 block uppercase">
                         {isVi ? "Đơn vị cấp" : "Issuer"}
                       </span>
-                      <span className="font-medium">
+                      <span className="font-medium text-xs">
                         {isVi ? currentCert.issuer : currentCert.issuerEn || currentCert.issuer}
                       </span>
                     </div>
@@ -238,16 +238,16 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                     <span className="font-mono text-[10px] text-zinc-400 block uppercase">
                       {isVi ? "Thời gian" : "Date"}
                     </span>
-                    <span className="font-medium font-mono">{currentCert.date}</span>
+                    <span className="font-medium font-mono text-xs">{currentCert.date}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Thumbnail Selector (Taller vertical portrait cards matching document ratio) */}
+            {/* Thumbnail Selector */}
             {certificates.length > 1 && (
-              <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/5">
-                <span className="font-mono text-[10px] text-zinc-400 block uppercase mb-2.5">
+              <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
+                <span className="font-mono text-[10px] text-zinc-400 block uppercase mb-2">
                   {isVi ? "Danh sách chứng chỉ:" : "Certificates list:"}
                 </span>
                 <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
@@ -255,10 +255,10 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                     <button
                       key={idx}
                       onClick={() => setCurrentIndex(idx)}
-                      className={`relative rounded-xl overflow-hidden border-2 transition-all duration-200 aspect-[3/4] sm:aspect-[1/1.38] bg-zinc-950 flex items-center justify-center p-1 ${
+                      className={`relative rounded-xl overflow-hidden border-2 transition-all duration-200 aspect-[3/4] bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center p-0.5 cursor-pointer ${
                         currentIndex === idx
-                          ? "border-cyan-500 shadow-lg shadow-cyan-500/25 scale-105 ring-2 ring-cyan-500/30"
-                          : "border-black/10 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-cyan-500/40"
+                          ? "border-cyan-500 shadow-md shadow-cyan-500/20 ring-2 ring-cyan-500/30 scale-102"
+                          : "border-zinc-200 dark:border-zinc-800 opacity-60 hover:opacity-100 hover:border-cyan-500/40"
                       }`}
                       title={isVi ? cert.title : cert.titleEn}
                     >
@@ -267,7 +267,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
                         alt={cert.title}
                         onContextMenu={(e) => e.preventDefault()}
                         draggable={false}
-                        className="w-full h-full object-contain rounded-md select-none pointer-events-none"
+                        className="w-full h-full object-contain rounded-lg select-none pointer-events-none"
                         loading="lazy"
                       />
                     </button>

@@ -137,7 +137,7 @@ const Navbar: React.FC = () => {
           <SignatureLogo
             name="Pham Son"
             onClick={scrollToTop}
-            className="pr-3 border-r border-black/[0.06] dark:border-white/[0.08]"
+            className="pr-2 md:pr-3 border-r-0 md:border-r border-black/[0.06] dark:border-white/[0.08]"
           />
 
           {/* Desktop Nav Items */}

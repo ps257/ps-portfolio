@@ -42,26 +42,26 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setIsTransitioning(true);
         setTransitionTheme(newTheme);
 
-        // Giai đoạn 1 (0ms): 2 cánh khép từ 2 bên mép vào giữa (2/4 màn hình)
-        requestAnimationFrame(() => {
+        // Delay 20ms to ensure DOM node is rendered before transitioning
+        setTimeout(() => {
             setIsClosed(true);
-        });
+        }, 20);
 
-        // Giai đoạn 2 (sau 340ms): 2 cánh đã gặp nhau ở giữa -> Đổi màu theme
+        // At 240ms doors are closed -> switch theme
         setTimeout(() => {
             setThemeState(newTheme);
             applyThemeToDOM(newTheme);
 
-            // Giai đoạn 3 (sau 160ms): Mở 2 cánh từ giữa lùi về 2 bên
+            // Re-open doors
             setTimeout(() => {
                 setIsClosed(false);
 
-                // Giai đoạn 4 (sau 360ms): Hoàn tất và ẩn overlay
+                // Complete and unmount overlay
                 setTimeout(() => {
                     setIsTransitioning(false);
-                }, 360);
-            }, 160);
-        }, 340);
+                }, 250);
+            }, 80);
+        }, 240);
     };
 
     const toggleTheme = () => {
@@ -80,13 +80,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
             {/* Hiệu ứng 2 cánh cửa khép từ 2 bên vào giữa (2/4) rồi mở ngược lại */}
             {isTransitioning && (
-                <div className="fixed inset-0 pointer-events-none z-[99999] select-none overflow-hidden">
-                    {/* Cánh bên Trái (chiếm 2/4 = 50% màn hình bên trái) */}
+                <div className="fixed inset-0 h-[100dvh] w-full pointer-events-none z-[99999] select-none overflow-hidden will-change-transform">
+                    {/* Cánh bên Trái: Dùng absolute để bị overflow-hidden clip, không gây tràn viewport */}
                     <div
-                        className={`fixed top-0 left-0 w-1/2 h-full transition-transform duration-320 ease-[cubic-bezier(0.16,1,0.3,1)] z-[100] ${
+                        className={`absolute top-0 left-0 w-1/2 h-full transition-transform duration-250 ease-out will-change-transform z-[100] ${
                             isLightTarget
-                                ? 'bg-slate-50 border-r border-slate-200 shadow-2xl'
-                                : 'bg-zinc-950 border-r border-zinc-800 shadow-2xl'
+                                ? 'bg-[#fafafa] border-r border-zinc-200 shadow-2xl'
+                                : 'bg-[#09090b] border-r border-zinc-800 shadow-2xl'
                         } ${isClosed ? 'translate-x-0' : '-translate-x-full'}`}
                     >
                         {/* Đường viền phát sáng nhẹ mép trong */}
@@ -99,12 +99,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                         />
                     </div>
 
-                    {/* Cánh bên Phải (chiếm 2/4 = 50% màn hình bên phải) */}
+                    {/* Cánh bên Phải: Dùng absolute để bị overflow-hidden clip, không gây tràn viewport */}
                     <div
-                        className={`fixed top-0 right-0 w-1/2 h-full transition-transform duration-320 ease-[cubic-bezier(0.16,1,0.3,1)] z-[100] ${
+                        className={`absolute top-0 right-0 w-1/2 h-full transition-transform duration-250 ease-out will-change-transform z-[100] ${
                             isLightTarget
-                                ? 'bg-slate-50 border-l border-slate-200 shadow-2xl'
-                                : 'bg-zinc-950 border-l border-zinc-800 shadow-2xl'
+                                ? 'bg-[#fafafa] border-l border-zinc-200 shadow-2xl'
+                                : 'bg-[#09090b] border-l border-zinc-800 shadow-2xl'
                         } ${isClosed ? 'translate-x-0' : 'translate-x-full'}`}
                     >
                         {/* Đường viền phát sáng nhẹ mép trong */}
@@ -119,20 +119,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
                     {/* Icon Mặt Trời / Mặt Trăng phát sáng quang học ở chính giữa tâm điểm */}
                     <div
-                        className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-250 ease-out z-[100000] flex items-center justify-center ${
+                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ease-out z-[100000] flex items-center justify-center ${
                             isLightTarget
                                 ? 'bg-white border-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.35)]'
                                 : 'bg-zinc-900 border-cyan-400/50 shadow-[0_0_40px_rgba(6,182,212,0.35)]'
-                        } border rounded-full p-5 sm:p-6 ${
+                        } border rounded-full p-4 sm:p-6 ${
                             isClosed
                                 ? 'scale-100 opacity-100 rotate-0'
                                 : 'scale-50 opacity-0 rotate-90'
                         }`}
                     >
                         {isLightTarget ? (
-                            <Sun className="w-10 h-10 sm:w-12 sm:h-12 text-amber-500 animate-pulse drop-shadow-[0_0_12px_rgba(245,158,11,0.6)]" />
+                            <Sun className="w-8 h-8 sm:w-12 sm:h-12 text-amber-500 animate-pulse drop-shadow-[0_0_12px_rgba(245,158,11,0.6)]" />
                         ) : (
-                            <Moon className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400 animate-pulse drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
+                            <Moon className="w-8 h-8 sm:w-12 sm:h-12 text-cyan-400 animate-pulse drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
                         )}
                     </div>
                 </div>
